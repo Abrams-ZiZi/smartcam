@@ -1,0 +1,35 @@
+packet:
+  +---+-------+---------+------+------+----+
+  |':'|command|parameter|value1|value2|’\r’|
+  +---+-------+---------+------+------+----+
+  
+  Start of packet :  ‘:’  0x3A  (colon (8 bits))
+  End of packet :   ‘\r’  0x0D  (carriage return (8 bits))
+  
+  commands:
+  ‘@’: 0x40  Ping  (is sent with no parameters (8 bits))
+	Is answered with ‘@’ : 0x40 (8 bits)
+  ‘M’: 0x4D  Move  parameter
+	Moves the servos according to the parameter 
+  ‘R’: 0x52  Read parameter 
+	Is answered with one or two bytes 0xNN 0xNN
+  ‘S’: 0x53  Set parameter value1 {value2}
+		
+  parameter: the direction, position or face (LED) count
+  ‘R’ : right      (8 bits)
+  ‘L’ : left       (8 bits)
+  ‘U’ : up         (8 bits)
+  ‘D’ : down       (8 bits)
+  ‘P’ : position   (8 bits)
+  ‘F’ : face count (8 bits)
+
+  value1, value2: numerical value, 0xNN: a number in the range 0-180
+
+  Notes: 
+	• Using the UART-format 8 bits are sent at a time. 
+	• One startbit is used
+	• The baudrate is 9600
+	• No parity is used
+	• A Slave/Master principle is used.
+		o The PC is the master
+		o The Arduino is the slave
